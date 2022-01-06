@@ -53,11 +53,11 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "eslint",
-      "npm run format",
-      "git add"
-    ],
+"src/**/*.{js,jsx}": [
+  "eslint",
+  "npm run format",
+  "git add"
+],
     "src/**/*.{json}": [
       "npm run format",
       "git add"
