@@ -55,12 +55,12 @@
   "lint-staged": {
 "src/**/*.{js,jsx}": [
   "eslint",
-  "npm run format",
+  "pretty-quick — staged",
   "git add"
 ],
-    "src/**/*.{json}": [
-      "npm run format",
-      "git add"
-    ]
-  }
+"src/**/*.{json}": [
+"pretty-quick — staged",
+"git add"
+]
+}
 }
