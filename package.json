@@ -50,10 +50,10 @@
   },
   "husky": {
     "hooks": {
-        "pre-commit": "lint-staged"
+        "pre-commit": "npm run format && lint-staged"
     }
 },
 "lint-staged": {
-    "src/**/*.{js,jsx}": ["eslint", "pretty-quick — staged", "git add"]
+    "src/**/*.{js,jsx}": ["eslint", "npm run format", "git add"]
 }
 }
