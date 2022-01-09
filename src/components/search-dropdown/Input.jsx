@@ -1,11 +1,5 @@
 import React from 'react';
 
-// const Input = ({ onChange, value}) => {
-//   handleOnChange(event) {
-//     onChange(event.target.value)
-//   };
-// }
-
 class Input extends React.Component {
   constructor(props) {
     super(props);
