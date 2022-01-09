@@ -9,6 +9,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "react-select": "^5.2.1",
+    "rxjs": "^7.5.1",
     "save-dev": "0.0.1-security",
     "web-vitals": "^2.1.2"
   },
@@ -17,7 +19,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "pretty-quick — staged"
+    "format": "pretty-quick — staged",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -55,13 +59,11 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
-      "eslint",
       "pretty-quick — staged",
-      "git add"
+      "eslint"
     ],
     "src/**/*.{json}": [
-      "pretty-quick — staged",
-      "git add"
+      "pretty-quick — staged"
     ]
   }
 }
