@@ -1,14 +1,10 @@
 import React from 'react';
 import DropdownListItem from './DropdownListItem';
 
-const DropdownList = function ({ value, list, setState }) {
+const DropdownList = function ({ value, setState }) {
   if (!value) return null;
 
-  const filterdList = list.filter((item) =>
-    item.data.toString().toLowerCase().startsWith(value.toLowerCase()),
-  );
-
-  if (filterdList.length === 0) {
+  if (value.length === 0) {
     return (
       <div>
         <div>Not found</div>
@@ -16,13 +12,16 @@ const DropdownList = function ({ value, list, setState }) {
     );
   }
 
-  return (
-    <ul>
-      {filterdList.map((item) => (
-        <DropdownListItem value={item.data} setState={setState} />
-      ))}
-    </ul>
-  );
+  const listItems = value.map((item) => (
+    <DropdownListItem
+      key={item.episodeId}
+      id={item.episodeId}
+      value={item.title}
+      setState={setState}
+    />
+  ));
+
+  return <ul>{listItems}</ul>;
 };
 
 export default DropdownList;
