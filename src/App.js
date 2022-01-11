@@ -1,12 +1,12 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import MovieSearch from './components/movie-search/MovieSearch';
+import Film from './components/film/Film';
 
 function App() {
   return (
-    <Container maxWidth="sm">
-    <Box
+    <Container >
+      <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-around',
@@ -15,8 +15,8 @@ function App() {
           bgcolor: 'background.paper',
         }}
       >
-        <MovieSearch />
-        </Box>
+        <Film />
+      </Box>
     </Container>
   );
 }
