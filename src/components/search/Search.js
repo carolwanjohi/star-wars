@@ -6,22 +6,41 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 
-function MovieSearch() {
+function Search({ onChange }) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
   const destroy$ = new Subject();
   const baseUrl = 'https://swapi.dev/api/films';
 
+  const handleAutocompleteOnChange = (selectedFilm) => {
+    onChange(selectedFilm);
+  };
+
+  const handleIsOptionEqualToValue = (option, value) => option?.title === value?.title || '';
+
+  const handleGetOptionLable = (option) => option?.title || '';
+
   const searchMovie = (searchTerm) => {
     ajax
       .get(`${baseUrl}/?search=${searchTerm}`)
       .pipe(
         map((ajaxResponse) =>
-          ajaxResponse.response.results.map((film) => ({
-            episodeId: film.episode_id,
-            title: film.title,
-          })),
+          ajaxResponse.response.results.map((film) => {
+            const { characters, title } = film;
+            /*
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/
+            Reference/Global_Objects/String/replace
+            */
+            const peopleIds = characters.map(
+              (character) => character.replace(/\D/g, "")
+            );
+            return {
+            title,
+            peopleIds,
+            openingCrawl: film.opening_crawl,
+            }
+        }),
         ),
         takeUntil(destroy$),
       )
@@ -30,7 +49,7 @@ function MovieSearch() {
       });
   };
 
-  const handleOnChange = (event) => {
+  const handleTextFieldOnChange = (event) => {
     const { value } = event.target;
     const trimedValue = value ? value.trim() : null;
 
@@ -46,7 +65,7 @@ function MovieSearch() {
     <TextField
       {...params}
       label="Search for movie"
-      onChange={(event) => handleOnChange(event)}
+      onChange={(event) => handleTextFieldOnChange(event)}
       InputProps={{
         ...params.InputProps,
         endAdornment: (
@@ -59,9 +78,6 @@ function MovieSearch() {
     />
   );
 
-  const handleIsOptionEqualToValue = (option, value) => option?.title === value?.title || '';
-
-  const handleGetOptionLable = (option) => option?.title || '';
   return (
     <Autocomplete
       id="movie-search"
@@ -74,6 +90,7 @@ function MovieSearch() {
       onClose={() => {
         setOpen(false);
       }}
+      onChange={(event, value) => handleAutocompleteOnChange(value)}
       isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
       getOptionLabel={(option) => handleGetOptionLable(option)}
       options={options}
@@ -83,4 +100,4 @@ function MovieSearch() {
   );
 }
 
-export default MovieSearch;
+export default Search;
