@@ -1,0 +1,21 @@
+import * as React from 'react';
+import styles from './openingCrawl.module.css'
+
+function OpeningCrawl({openingCrawl}) {
+
+  if(!openingCrawl || !openingCrawl.length) {
+    return null;
+  }
+
+  /* eslint-disable jsx-a11y/no-distracting-elements */
+  return (
+    <section>
+      <marquee direction="up"  scrolldelay="500" height="500" className={styles.openingCrawl}>
+
+        {openingCrawl}
+      </marquee>
+    </section>
+  )
+}
+
+export default OpeningCrawl;

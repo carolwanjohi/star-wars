@@ -5,6 +5,7 @@ import { ajax } from 'rxjs/ajax';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import styles from './search.module.css';
 
 function Search({ onChange }) {
   const [open, setOpen] = React.useState(false);
@@ -90,6 +91,7 @@ function Search({ onChange }) {
       onClose={() => {
         setOpen(false);
       }}
+      className={styles.search}
       onChange={(event, value) => handleAutocompleteOnChange(value)}
       isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
       getOptionLabel={(option) => handleGetOptionLable(option)}
