@@ -16,5 +16,12 @@
     "react/jsx-filename-extension": ["off"],
     "react/prop-types": ["warn"],
     "no-return-assign": ["off"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

@@ -5,6 +5,7 @@ import { ajax } from 'rxjs/ajax';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import PropTypes from 'prop-types';
 import styles from './search.module.css';
 
 function Search({ onChange }) {
@@ -101,5 +102,10 @@ function Search({ onChange }) {
     />
   );
 }
+
+
+Search.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
 
 export default Search;
