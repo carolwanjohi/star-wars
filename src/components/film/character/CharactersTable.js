@@ -3,15 +3,21 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { TablePagination } from "@mui/material";
 import PropTypes from 'prop-types';
-
+import HeaderSort from './headerSort/HeaderSort';
+import getComparator from '../../../helpers/getComparator';
 
 function CharactersTable({people}) {
+  if(!people || !people.length) {
+    return null;
+  }
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('name');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -22,11 +28,15 @@ function CharactersTable({people}) {
     setPage(0);
   };
 
-  if(!people || !people.length) {
-    return null;
-  }
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const tableRows = people
+  .slice()
+                .sort(getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     .map((character) => (
     <TableRow
@@ -37,7 +47,7 @@ function CharactersTable({people}) {
         {character.name}
       </TableCell>
       <TableCell>{character.gender}</TableCell>
-      <TableCell>{character.height}</TableCell>
+      <TableCell align="right">{character.height}</TableCell>
     </TableRow>
   ))
 
@@ -45,13 +55,11 @@ function CharactersTable({people}) {
     <>
     <TableContainer sx={{ maxHeight: 500 }}>
       <Table stickyHeader aria-label="sticky table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Gender</TableCell>
-            <TableCell>Height</TableCell>
-          </TableRow>
-        </TableHead>
+        <HeaderSort
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+               />
         <TableBody>
           {tableRows}
         </TableBody>
