@@ -71,7 +71,7 @@
       "pretty-quick — staged",
       "eslint"
     ],
-    "src/**/*.{json}": [
+    "src/**/*.json": [
       "pretty-quick — staged"
     ]
   }
