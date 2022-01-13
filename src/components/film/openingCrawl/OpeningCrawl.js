@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import styles from './openingCrawl.module.css'
 
 function OpeningCrawl({openingCrawl}) {
@@ -17,5 +18,9 @@ function OpeningCrawl({openingCrawl}) {
     </section>
   )
 }
+
+OpeningCrawl.propTypes = {
+  openingCrawl: PropTypes.string.isRequired,
+};
 
 export default OpeningCrawl;

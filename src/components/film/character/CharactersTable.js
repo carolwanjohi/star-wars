@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { TablePagination } from "@mui/material";
+import PropTypes from 'prop-types';
 
 
 function CharactersTable({people}) {
@@ -68,5 +69,9 @@ function CharactersTable({people}) {
     </>
   );
 }
+
+CharactersTable.propTypes = {
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default CharactersTable;
