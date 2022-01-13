@@ -42,7 +42,7 @@ function CharactersTable({people}) {
 
   return (
     <>
-    <TableContainer sx={{ maxHeight: 750 }}>
+    <TableContainer sx={{ maxHeight: 500 }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
