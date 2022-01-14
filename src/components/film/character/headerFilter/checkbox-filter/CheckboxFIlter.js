@@ -14,9 +14,10 @@ function CheckboxFilter({isOpen}) {
   const [state, setState] = React.useState({
     female: false,
     male: false,
+    hermaphrodite: false,
     notApplicable: false,
   });
-  const { female, male, notApplicable } = state;
+  const { female, male, notApplicable, hermaphrodite } = state;
 
   const handleChange = (event) => {
     setState({
@@ -41,6 +42,12 @@ function CheckboxFilter({isOpen}) {
               <Checkbox checked={male} onChange={handleChange} name="male" />
             }
             label="Male"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox checked={hermaphrodite} onChange={handleChange} name="hermaphrodite" />
+            }
+            label="Hermaphrodite"
           />
           <FormControlLabel
             control={
