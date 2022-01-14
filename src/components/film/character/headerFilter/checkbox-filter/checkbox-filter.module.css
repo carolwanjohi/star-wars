@@ -1,0 +1,7 @@
+.checkboxFilterSection {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px #bfbfbf;
+}

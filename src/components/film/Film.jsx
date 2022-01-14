@@ -13,10 +13,10 @@ const baseUrl = 'https://swapi.dev/api/people';
 class Film extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { people: [], openingCrawl: '' };
+    this.state = { characters: [], openingCrawl: '' };
 
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.getPeople = this.getPeople.bind(this);
+    this.getCharacters = this.getCharacters.bind(this);
   }
 
   componentWillUnmount() {
@@ -26,20 +26,20 @@ class Film extends React.Component {
 
   handleOnChange(selectedFilm) {
     if(selectedFilm) {
-      const { peopleIds, openingCrawl } = selectedFilm;
+      const { peopleIds, filmOpeningCrawl } = selectedFilm;
 
       this.setState({
-        openingCrawl
+        openingCrawl: filmOpeningCrawl
       });
 
-      this.getPeople(peopleIds);
+      this.getCharacters(peopleIds);
     } else {
-      this.setState({ people: [], openingCrawl: '' });
+      this.setState({ characters: [], openingCrawl: '' });
     }
   }
 
-  getPeople(peopleIds) {
-    const { people } = this.state;
+  getCharacters(peopleIds) {
+    const { characters } = this.state;
       from(peopleIds)
         .pipe(
           mergeMap((id) => ajax.get(`${baseUrl}/${id}`)),
@@ -57,15 +57,15 @@ class Film extends React.Component {
           takeUntil(destroy$),
         )
         .subscribe((person) => {
-          people.push(person);
+          characters.push(person);
           this.setState({
-            people
+            characters
           });
         });
   }
 
   render() {
-    const { people, openingCrawl } = this.state;
+    const { characters, openingCrawl } = this.state;
 
     return (
       <Grid container>
@@ -82,7 +82,7 @@ class Film extends React.Component {
       </Grid>
 
       <Grid item xs={6}>
-        <CharactersTable people={people}/>
+        <CharactersTable characters={characters}/>
       </Grid>
 
     </Grid>

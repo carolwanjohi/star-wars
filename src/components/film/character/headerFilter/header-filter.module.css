@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkboxFilter {
+  position: relative;
+  top: 180px;
+  right: 584px;
+  /*overflow: visible;*/
+}

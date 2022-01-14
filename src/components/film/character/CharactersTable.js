@@ -1,16 +1,18 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import { TablePagination } from "@mui/material";
-import PropTypes from 'prop-types';
+import TablePagination from "@mui/material/TablePagination";
+import TableHead from '@mui/material/TableHead';
 import HeaderSort from './headerSort/HeaderSort';
+import HeaderFilter from "./headerFilter/HeaderFilter";
 import getComparator from '../../../helpers/getComparator';
 
-function CharactersTable({people}) {
-  if(!people || !people.length) {
+function CharactersTable({characters}) {
+  if(!characters || !characters.length) {
     return null;
   }
 
@@ -18,6 +20,23 @@ function CharactersTable({people}) {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
+  const characterTableHeaders = [
+    {
+      id: 'name',
+      label: 'Name',
+      numeric: false,
+    },
+    {
+      id: 'gender',
+      label: 'Gender',
+      numeric: false,
+    },
+    {
+      id: 'height',
+      label: 'Height',
+      numeric: true,
+    }
+  ]
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -34,13 +53,13 @@ function CharactersTable({people}) {
     setOrderBy(property);
   };
 
-  const tableRows = people
+  const tableRows = characters
   .slice()
                 .sort(getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     .map((character) => (
     <TableRow
-      key={character.name}
+      key={character.personId}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component="th" scope="row">
@@ -51,15 +70,27 @@ function CharactersTable({people}) {
     </TableRow>
   ))
 
+  const tableHeaders = characterTableHeaders.map((characterTableHeader) => {
+    if (characterTableHeader.id === 'gender') {
+      return (<HeaderFilter characterTableHeader={characterTableHeader}/>)
+    }
+    return (<HeaderSort
+      characterTableHeader={characterTableHeader}
+      order={order}
+      orderBy={orderBy}
+      onRequestSort={handleRequestSort}
+    />)
+  })
+
   return (
     <>
     <TableContainer sx={{ maxHeight: 500 }}>
       <Table stickyHeader aria-label="sticky table">
-        <HeaderSort
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-               />
+        <TableHead>
+          <TableRow>
+            {tableHeaders}
+          </TableRow>
+        </TableHead>
         <TableBody>
           {tableRows}
         </TableBody>
@@ -68,7 +99,7 @@ function CharactersTable({people}) {
     <TablePagination
       rowsPerPageOptions={[25, 50, 100]}
       component="div"
-      count={people.length}
+      count={characters.length}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}
@@ -79,7 +110,7 @@ function CharactersTable({people}) {
 }
 
 CharactersTable.propTypes = {
-  people: PropTypes.arrayOf(PropTypes.object).isRequired,
+  characters: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default CharactersTable;
