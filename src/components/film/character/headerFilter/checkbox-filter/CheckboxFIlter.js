@@ -6,63 +6,66 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import styles from "./checkbox-filter.module.css";
 
-function CheckboxFilter({isOpen}) {
-  if(!isOpen) {
-    return null;
+class CheckboxFilter extends React.Component {
+  constructor(props) {
+    super(props)
+    const {genderOptions} = this.props;
+    this.state = {options: genderOptions};
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  const [state, setState] = React.useState({
-    female: false,
-    male: false,
-    hermaphrodite: false,
-    notApplicable: false,
-  });
-  const { female, male, notApplicable, hermaphrodite } = state;
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
+  handleChange(event) {
+    this.setState((previousState) => ({
+      ...previousState,
       [event.target.name]: event.target.checked,
-    });
+    }));
   };
 
-  return (
+  render() {
+    const {isOpen} = this.props;
+
+    if(!isOpen) {
+      return null;
+    }
+    const {options} = this.state;
+
+    const checkboxes = options.map((option) => {
+      const { genderOption, checked, disabled} = option;
+        return (
+          <FormControlLabel
+            key={genderOption}
+            control={
+              <Checkbox checked={checked}
+              disabled={disabled}
+              onChange={this.handleChange}
+              name={genderOption}
+              />
+            }
+            label={genderOption}
+        />)
+  })
+
+    return (
     <section className={styles.checkboxFilterSection}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard"
                    >
         <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox checked={female} onChange={handleChange} name="female" />
-            }
-            label="Female"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox checked={male} onChange={handleChange} name="male" />
-            }
-            label="Male"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox checked={hermaphrodite} onChange={handleChange} name="hermaphrodite" />
-            }
-            label="Hermaphrodite"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox checked={notApplicable} onChange={handleChange} name="notApplicable" />
-            }
-            label="N/A"
-          />
+          {checkboxes}
         </FormGroup>
       </FormControl>
     </section>
   )
+  }
 }
 
 CheckboxFilter.propTypes = {
-  isOpen: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired,
+  genderOptions: PropTypes.arrayOf(PropTypes.shape({
+    genderOption: PropTypes.string,
+    checked: PropTypes.bool,
+    disabled: PropTypes.bool,
+  })).isRequired
 }
 
 export default CheckboxFilter;

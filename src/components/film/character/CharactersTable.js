@@ -16,23 +16,28 @@ function CharactersTable({characters}) {
     return null;
   }
 
+  const genderOptions = [ ...new Set(characters.map((character) => character.gender))];
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const characterTableHeaders = [
     {
-      id: 'name',
+      id: 1,
+      type: 'name',
       label: 'Name',
       numeric: false,
     },
     {
-      id: 'gender',
+      id: 2,
+      type: 'gender',
       label: 'Gender',
       numeric: false,
     },
     {
-      id: 'height',
+      id: 3,
+      type: 'height',
       label: 'Height',
       numeric: true,
     }
@@ -71,8 +76,10 @@ function CharactersTable({characters}) {
   ))
 
   const tableHeaders = characterTableHeaders.map((characterTableHeader) => {
-    if (characterTableHeader.id === 'gender') {
-      return (<HeaderFilter characterTableHeader={characterTableHeader}/>)
+    if (characterTableHeader.type === 'gender') {
+      return (<HeaderFilter characterTableHeader={characterTableHeader}
+        genderOptions={genderOptions}
+      />)
     }
     return (<HeaderSort
       characterTableHeader={characterTableHeader}
@@ -110,7 +117,12 @@ function CharactersTable({characters}) {
 }
 
 CharactersTable.propTypes = {
-  characters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  characters: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    gender: PropTypes.string,
+    height: PropTypes.string,
+    personId: PropTypes.string,
+  })).isRequired,
 };
 
 export default CharactersTable;

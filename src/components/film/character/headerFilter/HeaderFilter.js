@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import styles from './header-filter.module.css';
 import CheckboxFilter from "./checkbox-filter/CheckboxFIlter";
 
-function HeaderFilter({characterTableHeader}) {
+function HeaderFilter({characterTableHeader, genderOptions}) {
   const [open, setOpen] = React.useState(false);
 
   const handleIconOnChange = () => {
@@ -17,9 +17,15 @@ function HeaderFilter({characterTableHeader}) {
     if (!isOpen) {
       return null
     }
-
+    const checkboxGenderOptions = genderOptions.map(
+      (genderOption) => ({
+        genderOption,
+      checked: false,
+      disabled: false,
+      })
+      )
     return (
-        <CheckboxFilter isOpen={isOpen} />
+        <CheckboxFilter isOpen={isOpen} genderOptions={checkboxGenderOptions}/>
     )
   }
 
@@ -40,9 +46,11 @@ function HeaderFilter({characterTableHeader}) {
 HeaderFilter.propTypes = {
   characterTableHeader: PropTypes.shape({
     id: PropTypes.number,
+    type: PropTypes.string,
     label: PropTypes.string,
     numeric: PropTypes.bool
-  }).isRequired
+  }).isRequired,
+  genderOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default HeaderFilter;

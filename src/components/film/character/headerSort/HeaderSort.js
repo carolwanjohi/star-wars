@@ -14,16 +14,19 @@ function HeaderSort({ characterTableHeader, order, orderBy, onRequestSort }) {
         <TableCell
           key={characterTableHeader.id}
           align={characterTableHeader.numeric ? 'right' : 'left'}
-          sortDirection={orderBy === characterTableHeader.id ? order : false}
+          sortDirection={orderBy === characterTableHeader.type ? order : false}
         >
           <TableSortLabel
-            active={orderBy === characterTableHeader.id}
-            direction={orderBy === characterTableHeader.id ? order : 'asc'}
-            onClick={createSortHandler(characterTableHeader.id)}
+          key={characterTableHeader.id}
+            active={orderBy === characterTableHeader.type}
+            direction={orderBy === characterTableHeader.type ? order : 'asc'}
+            onClick={createSortHandler(characterTableHeader.type)}
           >
             {characterTableHeader.label}
-            {orderBy === characterTableHeader.id ? (
-              <Box component="span" sx={visuallyHidden}>
+            {orderBy === characterTableHeader.type ? (
+              <Box
+          key={characterTableHeader.id}
+              component="span" sx={visuallyHidden}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
               </Box>
             ) : null}
@@ -38,6 +41,7 @@ HeaderSort.propTypes = {
   orderBy: PropTypes.string.isRequired,
   characterTableHeader: PropTypes.shape({
     id: PropTypes.number,
+    type: PropTypes.string,
     label: PropTypes.string,
     numeric: PropTypes.bool
   }).isRequired
