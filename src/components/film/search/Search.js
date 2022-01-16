@@ -1,11 +1,11 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import PropTypes from 'prop-types';
 import styles from './search.module.css';
 
 function Search({ onChange }) {
@@ -21,7 +21,7 @@ function Search({ onChange }) {
 
   const handleIsOptionEqualToValue = (option, value) => option?.title === value?.title || '';
 
-  const handleGetOptionLable = (option) => option?.title || '';
+  const handleGetOptionLabel = (option) => option?.title || '';
 
   const searchMovie = (searchTerm) => {
     ajax
@@ -40,7 +40,7 @@ function Search({ onChange }) {
             return {
             title,
             peopleIds,
-            openingCrawl: film.opening_crawl,
+            filmOpeningCrawl: film.opening_crawl,
             }
         }),
         ),
@@ -53,10 +53,10 @@ function Search({ onChange }) {
 
   const handleTextFieldOnChange = (event) => {
     const { value } = event.target;
-    const trimedValue = value ? value.trim() : null;
+    const trimmedValue = value ? value.trim() : null;
 
-    if (trimedValue && trimedValue.length) {
-      searchMovie(trimedValue);
+    if (trimmedValue && trimmedValue.length) {
+      searchMovie(trimmedValue);
     } else {
       setOpen(false);
     }
@@ -95,7 +95,7 @@ function Search({ onChange }) {
       className={styles.search}
       onChange={(event, value) => handleAutocompleteOnChange(value)}
       isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
-      getOptionLabel={(option) => handleGetOptionLable(option)}
+      getOptionLabel={(option) => handleGetOptionLabel(option)}
       options={options}
       loading={loading}
       renderInput={(params) => renderTextField(params)}

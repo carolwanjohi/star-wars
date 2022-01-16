@@ -13,10 +13,11 @@ const baseUrl = 'https://swapi.dev/api/people';
 class Film extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { people: [], openingCrawl: '' };
+    this.state = { characters: [], openingCrawl: '', allCharacters: []  };
 
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.getPeople = this.getPeople.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.getCharacters = this.getCharacters.bind(this);
+    this.handleGenderChange = this.handleGenderChange.bind(this);
   }
 
   componentWillUnmount() {
@@ -24,22 +25,34 @@ class Film extends React.Component {
     destroy$.complete();
   }
 
-  handleOnChange(selectedFilm) {
+  handleSearchChange(selectedFilm) {
     if(selectedFilm) {
-      const { peopleIds, openingCrawl } = selectedFilm;
+      const { peopleIds, filmOpeningCrawl } = selectedFilm;
 
       this.setState({
-        openingCrawl
+        openingCrawl: filmOpeningCrawl
       });
 
-      this.getPeople(peopleIds);
+      this.getCharacters(peopleIds);
     } else {
-      this.setState({ people: [], openingCrawl: '' });
+      this.setState({ characters: [], openingCrawl: '', allCharacters: [] });
     }
   }
 
-  getPeople(peopleIds) {
-    const { people } = this.state;
+  handleGenderChange(selectedGender) {
+    const {characters, allCharacters} = this.state;
+    if (selectedGender.checked === false) {
+      this.setState({characters: allCharacters});
+    } else {
+      const filteredCharacters = characters.filter(
+        (character) => character.gender === selectedGender.genderOption
+      );
+     this.setState({characters: filteredCharacters});
+    }
+  }
+
+  getCharacters(peopleIds) {
+    const { characters, allCharacters } = this.state;
       from(peopleIds)
         .pipe(
           mergeMap((id) => ajax.get(`${baseUrl}/${id}`)),
@@ -57,22 +70,24 @@ class Film extends React.Component {
           takeUntil(destroy$),
         )
         .subscribe((person) => {
-          people.push(person);
+          characters.push(person);
+          allCharacters.push(person)
           this.setState({
-            people
+            characters,
+            allCharacters
           });
         });
   }
 
   render() {
-    const { people, openingCrawl } = this.state;
+    const { characters, openingCrawl, allCharacters } = this.state;
 
     return (
       <Grid container>
         <Grid item xs={4} />
 
         <Grid  item xs={4}>
-        <Search item xs={4} onChange={this.handleOnChange} />
+        <Search item xs={4} onChange={this.handleSearchChange} />
       </Grid>
 
         <Grid item xs={4} />
@@ -82,7 +97,9 @@ class Film extends React.Component {
       </Grid>
 
       <Grid item xs={6}>
-        <CharactersTable people={people}/>
+        <CharactersTable characters={characters}
+        allCharacters={allCharacters}
+        onSelectGender={this.handleGenderChange}/>
       </Grid>
 
     </Grid>
