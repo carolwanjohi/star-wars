@@ -42,7 +42,7 @@ class CheckboxFilter extends React.Component {
 
     const {onSelectGender} = this.props;
     const filterGender = optionsNewState.find((option) =>
-    option.genderOption === selectedOption.genderOption)
+    option.genderOption === selectedOption.genderOption);
 
     onSelectGender(filterGender);
   };
