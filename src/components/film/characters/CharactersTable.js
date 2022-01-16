@@ -58,6 +58,25 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
     setOrderBy(property);
   };
 
+  const genderAbbreviation = (gender) => {
+    switch(gender) {
+      case('female'):
+        return 'F';
+
+      case('male'):
+        return 'M';
+
+      case('hermaphrodite'):
+        return 'H';
+
+      case('n/a'):
+        return 'N/A';
+
+      default:
+        return 'None'
+    }
+  }
+
   const tableRows = characters
   .slice()
                 .sort(getComparator(order, orderBy))
@@ -70,7 +89,7 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
       <TableCell component="th" scope="row">
         {character.name}
       </TableCell>
-      <TableCell>{character.gender}</TableCell>
+      <TableCell>{genderAbbreviation(character.gender)}</TableCell>
       <TableCell align="right">{character.height}</TableCell>
     </TableRow>
   ));

@@ -20,6 +20,16 @@ function updateOptions(options, selectedOption, event) {
     };
   })
 }
+
+function checkboxLabel(genderOption) {
+    switch(genderOption) {
+      case('n/a'):
+        return 'N/A';
+
+      default:
+        return `${genderOption.charAt(0).toUpperCase()}${genderOption.slice(1)}`
+    }
+}
 class CheckboxFilter extends React.Component {
   constructor(props) {
     super(props)
@@ -57,7 +67,8 @@ class CheckboxFilter extends React.Component {
 
     const checkboxes = options.map((option) => {
       const { genderOption, checked, disabled} = option;
-        return (
+
+      return (
           <FormControlLabel
             key={genderOption}
             control={
@@ -67,7 +78,7 @@ class CheckboxFilter extends React.Component {
               name={genderOption}
               />
             }
-            label={genderOption}
+            label={checkboxLabel(genderOption)}
         />);
   })
 
