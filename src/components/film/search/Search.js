@@ -23,6 +23,10 @@ function Search({ onChange }) {
 
   const handleGetOptionLabel = (option) => option?.title || '';
 
+  const sortByReleaseDate = (films) => (
+    films.sort((filmA, filmB) => new Date(filmA.releaseDate) - new Date(filmB.releaseDate))
+  );
+
   const searchMovie = (searchTerm) => {
     ajax
       .get(`${baseUrl}/?search=${searchTerm}`)
@@ -30,10 +34,6 @@ function Search({ onChange }) {
         map((ajaxResponse) =>
           ajaxResponse.response.results.map((film) => {
             const { characters, title } = film;
-            /*
-            https://developer.mozilla.org/en-US/docs/Web/JavaScript/
-            Reference/Global_Objects/String/replace
-            */
             const peopleIds = characters.map(
               (character) => character.replace(/\D/g, "")
             );
@@ -41,13 +41,15 @@ function Search({ onChange }) {
             title,
             peopleIds,
             filmOpeningCrawl: film.opening_crawl,
+            releaseDate: film.release_date
             }
         }),
         ),
         takeUntil(destroy$),
       )
-      .subscribe((filmTitles) => {
-        setOptions(filmTitles);
+      .subscribe((films) => {
+        const sortedFilms = sortByReleaseDate(films);
+        setOptions(sortedFilms);
       });
   };
 
