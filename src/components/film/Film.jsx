@@ -13,10 +13,11 @@ const baseUrl = 'https://swapi.dev/api/people';
 class Film extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { characters: [], openingCrawl: '' };
+    this.state = { characters: [], openingCrawl: '', allCharacters: []  };
 
-    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
     this.getCharacters = this.getCharacters.bind(this);
+    this.handleGenderChange = this.handleGenderChange.bind(this);
   }
 
   componentWillUnmount() {
@@ -24,7 +25,7 @@ class Film extends React.Component {
     destroy$.complete();
   }
 
-  handleOnChange(selectedFilm) {
+  handleSearchChange(selectedFilm) {
     if(selectedFilm) {
       const { peopleIds, filmOpeningCrawl } = selectedFilm;
 
@@ -34,12 +35,24 @@ class Film extends React.Component {
 
       this.getCharacters(peopleIds);
     } else {
-      this.setState({ characters: [], openingCrawl: '' });
+      this.setState({ characters: [], openingCrawl: '', allCharacters: [] });
+    }
+  }
+
+  handleGenderChange(selectedGender) {
+    const {characters, allCharacters} = this.state;
+    if (selectedGender.checked === false) {
+      this.setState({characters: allCharacters});
+    } else {
+      const filteredCharacters = characters.filter(
+        (character) => character.gender === selectedGender.genderOption
+      );
+     this.setState({characters: filteredCharacters});
     }
   }
 
   getCharacters(peopleIds) {
-    const { characters } = this.state;
+    const { characters, allCharacters } = this.state;
       from(peopleIds)
         .pipe(
           mergeMap((id) => ajax.get(`${baseUrl}/${id}`)),
@@ -58,21 +71,23 @@ class Film extends React.Component {
         )
         .subscribe((person) => {
           characters.push(person);
+          allCharacters.push(person)
           this.setState({
-            characters
+            characters,
+            allCharacters
           });
         });
   }
 
   render() {
-    const { characters, openingCrawl } = this.state;
+    const { characters, openingCrawl, allCharacters } = this.state;
 
     return (
       <Grid container>
         <Grid item xs={4} />
 
         <Grid  item xs={4}>
-        <Search item xs={4} onChange={this.handleOnChange} />
+        <Search item xs={4} onChange={this.handleSearchChange} />
       </Grid>
 
         <Grid item xs={4} />
@@ -82,7 +97,9 @@ class Film extends React.Component {
       </Grid>
 
       <Grid item xs={6}>
-        <CharactersTable characters={characters}/>
+        <CharactersTable characters={characters}
+        allCharacters={allCharacters}
+        onSelectGender={this.handleGenderChange}/>
       </Grid>
 
     </Grid>

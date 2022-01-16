@@ -6,27 +6,31 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import styles from './header-filter.module.css';
 import CheckboxFilter from "./checkbox-filter/CheckboxFIlter";
 
-function HeaderFilter({characterTableHeader, genderOptions}) {
+function HeaderFilter({characterTableHeader, genderOptions, characters, onSelectGender}) {
   const [open, setOpen] = React.useState(false);
 
   const handleIconOnChange = () => {
-    setOpen(!open)
+    setOpen(!open);
   }
 
   const checkboxFilter = (isOpen) => {
     if (!isOpen) {
-      return null
+      return null;
     }
+
     const checkboxGenderOptions = genderOptions.map(
       (genderOption) => ({
         genderOption,
-      checked: false,
-      disabled: false,
+      checked: characters.every((character) => character.gender === genderOption),
+      disabled: characters.every((character) => character.gender !== genderOption),
       })
-      )
+      );
+
     return (
-        <CheckboxFilter isOpen={isOpen} genderOptions={checkboxGenderOptions}/>
-    )
+        <CheckboxFilter isOpen={isOpen} genderOptions={checkboxGenderOptions}
+          onSelectGender={onSelectGender}
+        />
+    );
   }
 
   return (
@@ -40,7 +44,7 @@ function HeaderFilter({characterTableHeader, genderOptions}) {
       </span>
       {checkboxFilter(open)}
     </TableCell>
-  )
+  );
 }
 
 HeaderFilter.propTypes = {
@@ -51,6 +55,13 @@ HeaderFilter.propTypes = {
     numeric: PropTypes.bool
   }).isRequired,
   genderOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onSelectGender: PropTypes.func.isRequired,
+  characters: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    gender: PropTypes.string,
+    height: PropTypes.string,
+    personId: PropTypes.string,
+  })).isRequired,
 }
 
 export default HeaderFilter;

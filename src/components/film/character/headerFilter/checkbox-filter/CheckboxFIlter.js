@@ -12,12 +12,12 @@ function updateOptions(options, selectedOption, event) {
       return {
         ...selectedOption,
         checked: event.target.checked
-      }
+      };
     }
     return {
       ...option,
       disabled: event.target.checked
-    }
+    };
   })
 }
 class CheckboxFilter extends React.Component {
@@ -25,7 +25,7 @@ class CheckboxFilter extends React.Component {
     super(props)
     const {genderOptions} = this.props;
     this.state = {options: genderOptions};
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
@@ -33,12 +33,18 @@ class CheckboxFilter extends React.Component {
 
     const selectedOption = options.find((option) => {
       const { genderOption } = option;
-      return genderOption === event.target.name
-    })
+      return genderOption === event.target.name;
+    });
 
-    const optionsNewState = updateOptions(options, selectedOption, event)
+    const optionsNewState = updateOptions(options, selectedOption, event);
 
-    this.setState({options: optionsNewState})
+    this.setState({options: optionsNewState});
+
+    const {onSelectGender} = this.props;
+    const filterGender = optionsNewState.find((option) =>
+    option.genderOption === selectedOption.genderOption)
+
+    onSelectGender(filterGender);
   };
 
   render() {
@@ -62,7 +68,7 @@ class CheckboxFilter extends React.Component {
               />
             }
             label={genderOption}
-        />)
+        />);
   })
 
     return (
@@ -74,7 +80,7 @@ class CheckboxFilter extends React.Component {
         </FormGroup>
       </FormControl>
     </section>
-  )
+  );
   }
 }
 
@@ -84,7 +90,8 @@ CheckboxFilter.propTypes = {
     genderOption: PropTypes.string,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
-  })).isRequired
+  })).isRequired,
+  onSelectGender: PropTypes.func.isRequired,
 }
 
 export default CheckboxFilter;

@@ -11,12 +11,12 @@ import HeaderSort from './headerSort/HeaderSort';
 import HeaderFilter from "./headerFilter/HeaderFilter";
 import getComparator from '../../../helpers/getComparator';
 
-function CharactersTable({characters}) {
+function CharactersTable({characters, onSelectGender, allCharacters}) {
   if(!characters || !characters.length) {
     return null;
   }
 
-  const genderOptions = [ ...new Set(characters.map((character) => character.gender))];
+  const genderOptions = [ ...new Set(allCharacters.map((character) => character.gender))];
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
@@ -41,7 +41,7 @@ function CharactersTable({characters}) {
       label: 'Height',
       numeric: true,
     }
-  ]
+  ];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -73,25 +73,28 @@ function CharactersTable({characters}) {
       <TableCell>{character.gender}</TableCell>
       <TableCell align="right">{character.height}</TableCell>
     </TableRow>
-  ))
+  ));
 
   const tableHeaders = characterTableHeaders.map((characterTableHeader) => {
     if (characterTableHeader.type === 'gender') {
       return (<HeaderFilter characterTableHeader={characterTableHeader}
         genderOptions={genderOptions}
-      />)
+        characters={characters}
+        onSelectGender={onSelectGender}
+      />);
     }
+
     return (<HeaderSort
       characterTableHeader={characterTableHeader}
       order={order}
       orderBy={orderBy}
       onRequestSort={handleRequestSort}
-    />)
+    />);
   })
 
   return (
     <>
-    <TableContainer sx={{ maxHeight: 500 }}>
+    <TableContainer sx={{ minHeight: 500, maxHeight: 500 }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
@@ -118,6 +121,13 @@ function CharactersTable({characters}) {
 
 CharactersTable.propTypes = {
   characters: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    gender: PropTypes.string,
+    height: PropTypes.string,
+    personId: PropTypes.string,
+  })).isRequired,
+  onSelectGender: PropTypes.func.isRequired,
+  allCharacters: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     gender: PropTypes.string,
     height: PropTypes.string,
