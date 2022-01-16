@@ -4,7 +4,7 @@ import { ajax } from 'rxjs/ajax';
 import { mergeMap, map, takeUntil } from 'rxjs/operators';
 import Grid from '@mui/material/Grid';
 import Search from './search/Search';
-import CharactersTable from './character/CharactersTable';
+import CharactersTable from './characters/CharactersTable';
 import OpeningCrawl from './openingCrawl/OpeningCrawl';
 
 const destroy$ = new Subject();
