@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Search from './search/Search';
 import CharactersTable from './characters/CharactersTable';
 import OpeningCrawl from './openingCrawl/OpeningCrawl';
+import ErrorSnackbar from '../snackbar/ErrorSnackbar';
 
 const destroy$ = new Subject();
 const baseUrl = 'https://swapi.dev/api/people';
@@ -13,11 +14,18 @@ const baseUrl = 'https://swapi.dev/api/people';
 class Film extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { characters: [], openingCrawl: '', allCharacters: []  };
+    this.state = {
+      characters: [],
+      openingCrawl: '',
+      allCharacters: [],
+      isErrorOpen: false,
+      error: { status: null }
+    };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.getCharacters = this.getCharacters.bind(this);
     this.handleGenderChange = this.handleGenderChange.bind(this);
+    this.handleErrorSnackbarClose = this.handleErrorSnackbarClose.bind(this);
   }
 
   componentWillUnmount() {
@@ -51,6 +59,13 @@ class Film extends React.Component {
     }
   }
 
+  handleErrorSnackbarClose(){
+    this.setState({
+      isErrorOpen: false
+    })
+  };
+
+
   getCharacters(peopleIds) {
     const { characters, allCharacters } = this.state;
       from(peopleIds)
@@ -69,20 +84,34 @@ class Film extends React.Component {
           ),
           takeUntil(destroy$),
         )
-        .subscribe((person) => {
-          characters.push(person);
-          allCharacters.push(person)
-          this.setState({
-            characters,
-            allCharacters
-          });
+        .subscribe({
+          next: (person) => {
+            characters.push(person);
+            allCharacters.push(person)
+            this.setState({
+              characters,
+              allCharacters
+            });
+          },
+          error: (ajaxErrorResponse) => {
+            this.setState({
+              characters: [],
+              openingCrawl: '',
+              allCharacters: [],
+              isErrorOpen: true,
+              error: ajaxErrorResponse
+            });
+          }
         });
   }
 
   render() {
-    const { characters, openingCrawl, allCharacters } = this.state;
+    const { characters, openingCrawl, allCharacters,
+      error, isErrorOpen
+     } = this.state;
 
     return (
+      <>
       <Grid container>
         <Grid item xs={4} />
 
@@ -103,6 +132,10 @@ class Film extends React.Component {
       </Grid>
 
     </Grid>
+    <ErrorSnackbar error={error}
+    isErrorOpen={isErrorOpen}
+    handleErrorSnackbarClose={this.handleErrorSnackbarClose}/>
+    </>
       );
   }
 }
