@@ -1,11 +1,10 @@
 # Star Wars
 
 This is a React App that allows a user to search for a Star Wars movies and view the
-selected movie's opening crawl and characters.
-
+selected movie's opening crawl and characters.\
 It also provides filtering of character by gender and sorting them by name and height.
 
-It is currently hosted on [Github Pages](https://carolwanjohi.github.io/star-wars/)
+The app is currently hosted on [Github Pages](https://carolwanjohi.github.io/star-wars/) and the API useD is [SWAPI](https://swapi.dev).
 
 ## Run app locally
 
