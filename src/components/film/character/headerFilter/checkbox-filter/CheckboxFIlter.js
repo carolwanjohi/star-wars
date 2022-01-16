@@ -6,6 +6,20 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import styles from "./checkbox-filter.module.css";
 
+function updateOptions(options, selectedOption, event) {
+  return options.map((option) => {
+    if (option.genderOption === selectedOption.genderOption) {
+      return {
+        ...selectedOption,
+        checked: event.target.checked
+      }
+    }
+    return {
+      ...option,
+      disabled: event.target.checked
+    }
+  })
+}
 class CheckboxFilter extends React.Component {
   constructor(props) {
     super(props)
@@ -14,12 +28,17 @@ class CheckboxFilter extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-
   handleChange(event) {
-    this.setState((previousState) => ({
-      ...previousState,
-      [event.target.name]: event.target.checked,
-    }));
+    const {options} = this.state;
+
+    const selectedOption = options.find((option) => {
+      const { genderOption } = option;
+      return genderOption === event.target.name
+    })
+
+    const optionsNewState = updateOptions(options, selectedOption, event)
+
+    this.setState({options: optionsNewState})
   };
 
   render() {
