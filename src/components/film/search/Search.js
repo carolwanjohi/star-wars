@@ -7,10 +7,13 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import styles from './search.module.css';
+import ErrorSnackbar from '../../snackbar/ErrorSnackbar';
 
 function Search({ onChange }) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
+  const [error, setError] = React.useState({ status: null});
+  const [isErrorOpen, setIsErrorOpen] =  React.useState(false);
   const loading = open && options.length === 0;
   const destroy$ = new Subject();
   const baseUrl = 'https://swapi.dev/api/films';
@@ -47,9 +50,16 @@ function Search({ onChange }) {
         ),
         takeUntil(destroy$),
       )
-      .subscribe((films) => {
-        const sortedFilms = sortByReleaseDate(films);
-        setOptions(sortedFilms);
+      .subscribe({
+        next: (films) => {
+          const sortedFilms = sortByReleaseDate(films);
+          setOptions(sortedFilms);
+        },
+        error: (ajaxErrorResponse) => {
+          setIsErrorOpen(true);
+          setError(ajaxErrorResponse);
+          setOptions(['No option']);
+        }
       });
   };
 
@@ -82,7 +92,16 @@ function Search({ onChange }) {
     />
   );
 
+  const handleErrorSnackbarClose = () => setIsErrorOpen(false);
+
+  const renderErrorMessage = () => (
+    <ErrorSnackbar error={error}
+    isErrorOpen={isErrorOpen}
+    handleErrorSnackbarClose={handleErrorSnackbarClose}/>
+  );
+
   return (
+    <>
     <Autocomplete
       id="movie-search"
       freeSolo
@@ -102,6 +121,8 @@ function Search({ onChange }) {
       loading={loading}
       renderInput={(params) => renderTextField(params)}
     />
+    {renderErrorMessage()}
+    </>
   );
 }
 

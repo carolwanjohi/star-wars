@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from "@mui/material/TablePagination";
 import TableHead from '@mui/material/TableHead';
+import TableFooter from '@mui/material/TableFooter';
+import Typography from '@mui/material/Typography';
 import HeaderSort from './headerSort/HeaderSort';
 import HeaderFilter from "./headerFilter/HeaderFilter";
 import getComparator from '../../../helpers/getComparator';
@@ -58,10 +60,31 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
     setOrderBy(property);
   };
 
-  const tableRows = characters
+  const genderAbbreviation = (gender) => {
+    switch(gender) {
+      case('female'):
+        return 'F';
+
+      case('male'):
+        return 'M';
+
+      case('hermaphrodite'):
+        return 'H';
+
+      case('n/a'):
+        return 'N/A';
+
+      default:
+        return 'None'
+    }
+  }
+
+  const charactersPerRow = characters
   .slice()
                 .sort(getComparator(order, orderBy))
-    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  const tableRows = charactersPerRow
     .map((character) => (
     <TableRow
       key={character.personId}
@@ -70,10 +93,19 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
       <TableCell component="th" scope="row">
         {character.name}
       </TableCell>
-      <TableCell>{character.gender}</TableCell>
+      <TableCell>{genderAbbreviation(character.gender)}</TableCell>
       <TableCell align="right">{character.height}</TableCell>
     </TableRow>
   ));
+
+  const totalHeightInCentimeters = charactersPerRow
+    .filter((character) => +character.height)
+    .map((character) => parseInt(character.height, 10))
+    .reduce((sum, i) => sum + i, 0);
+
+  let totalHeightInInches = (totalHeightInCentimeters * 0.39370).toFixed(0);
+  const totalHeightInFeet = Math.floor(totalHeightInInches / 12);
+  totalHeightInInches = (totalHeightInInches %= 12).toFixed(2);
 
   const tableHeaders = characterTableHeaders.map((characterTableHeader) => {
     if (characterTableHeader.type === 'gender') {
@@ -93,7 +125,6 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
   })
 
   return (
-    <>
     <TableContainer sx={{ minHeight: 500, maxHeight: 500 }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
@@ -104,18 +135,35 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
         <TableBody>
           {tableRows}
         </TableBody>
+        <TableFooter>
+          <TableRow
+            key='total-height'
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell />
+            <TableCell />
+            <TableCell align="right">
+              <Typography variant="caption">
+                Total Height:
+                <br/>
+                {totalHeightInCentimeters} cm</Typography>
+                <br/>
+                ({totalHeightInFeet}ft/{totalHeightInInches}in)
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[25, 50, 100]}
+              count={characters.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
-    <TablePagination
-      rowsPerPageOptions={[25, 50, 100]}
-      component="div"
-      count={characters.length}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onPageChange={handleChangePage}
-      onRowsPerPageChange={handleChangeRowsPerPage}
-    />
-    </>
   );
 }
 
