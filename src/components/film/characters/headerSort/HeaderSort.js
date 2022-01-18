@@ -12,12 +12,12 @@ function HeaderSort({ characterTableHeader, order, orderBy, onRequestSort }) {
 
   return (
         <TableCell
-          key={characterTableHeader.id}
+          key={`${characterTableHeader.id}-cell`}
           align={characterTableHeader.numeric ? 'right' : 'left'}
           sortDirection={orderBy === characterTableHeader.type ? order : false}
         >
           <TableSortLabel
-          key={characterTableHeader.id}
+            key={`${characterTableHeader.id}-label`}
             active={orderBy === characterTableHeader.type}
             direction={orderBy === characterTableHeader.type ? order : 'asc'}
             onClick={createSortHandler(characterTableHeader.type)}
@@ -25,7 +25,7 @@ function HeaderSort({ characterTableHeader, order, orderBy, onRequestSort }) {
             {characterTableHeader.label}
             {orderBy === characterTableHeader.type ? (
               <Box
-          key={characterTableHeader.id}
+            key={`${characterTableHeader.id}-box`}
               component="span" sx={visuallyHidden}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
               </Box>

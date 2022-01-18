@@ -110,7 +110,9 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
 
   const tableHeaders = characterTableHeaders.map((characterTableHeader) => {
     if (characterTableHeader.type === 'gender') {
-      return (<HeaderFilter characterTableHeader={characterTableHeader}
+      return (<HeaderFilter
+        key={`${characterTableHeader.id}-header`}
+        characterTableHeader={characterTableHeader}
         genderOptions={genderOptions}
         characters={characters}
         onSelectGender={onSelectGender}
@@ -118,6 +120,7 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
     }
 
     return (<HeaderSort
+      key={`${characterTableHeader.id}-header`}
       characterTableHeader={characterTableHeader}
       order={order}
       orderBy={orderBy}

@@ -14,7 +14,7 @@ function Search({ onChange }) {
   const [options, setOptions] = React.useState([]);
   const [error, setError] = React.useState({ status: null});
   const [isErrorOpen, setIsErrorOpen] =  React.useState(false);
-  const loading = open && options.length === 0;
+  const [loading, setLoading] = React.useState(false);
   const destroy$ = new Subject();
   const baseUrl = 'https://swapi.dev/api/films';
 
@@ -52,13 +52,15 @@ function Search({ onChange }) {
       )
       .subscribe({
         next: (films) => {
+          setLoading(false);
           const sortedFilms = sortByReleaseDate(films);
           setOptions(sortedFilms);
         },
         error: (ajaxErrorResponse) => {
+          setLoading(false);
           setIsErrorOpen(true);
           setError(ajaxErrorResponse);
-          setOptions(['No option']);
+          setOptions([]);
         }
       });
   };
@@ -68,9 +70,11 @@ function Search({ onChange }) {
     const trimmedValue = value ? value.trim() : null;
 
     if (trimmedValue && trimmedValue.length) {
+      setLoading(true);
       searchMovie(trimmedValue);
     } else {
       setOpen(false);
+      setOptions([]);
     }
   };
 
