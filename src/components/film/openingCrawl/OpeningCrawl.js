@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import styles from './OpeningCrawl.module.css'
+import styles from './openingCrawl.module.css'
 
 function OpeningCrawl({openingCrawl}) {
 

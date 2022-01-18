@@ -11,8 +11,8 @@ import TableFooter from '@mui/material/TableFooter';
 import Typography from '@mui/material/Typography';
 import HeaderSort from './headerSort/HeaderSort';
 import HeaderFilter from "./headerFilter/HeaderFilter";
-import getComparator from '../../../helpers/GetComparator';
-import styles from './CharactersTable.module.css'
+import getComparator from '../../../helpers/getComparator';
+import styles from './charactersTable.module.css'
 
 function CharactersTable({characters, onSelectGender, allCharacters}) {
   if(!characters || !characters.length) {

@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import styles from "./CheckboxFilter.module.css";
+import styles from "./checkboxFilter.module.css";
 
 function updateOptions(options, selectedOption, event) {
   return options.map((option) => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import styles from './ErrorSnackbar.module.css'
+import styles from './errorSnackbar.module.css'
 
 function ErrorSnackbar({error, isErrorOpen, handleErrorSnackbarClose}) {
   if (!error.status) {
