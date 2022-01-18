@@ -1,0 +1,23 @@
+.tableContainer {
+  min-height: 500px;
+  max-height: 500px;
+}
+
+.table {
+  background-color: #feda4a;
+}
+
+.characters:last-child td,
+.characters:last-child th,
+.totalHeight:last-child td,
+.totalHeight:last-child th {
+  border: 0;
+}
+
+.totalHeightCaption {
+  color: #000;
+}
+
+.pagination {
+  background-color: #fff;
+}

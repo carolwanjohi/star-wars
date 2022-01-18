@@ -11,7 +11,8 @@ import TableFooter from '@mui/material/TableFooter';
 import Typography from '@mui/material/Typography';
 import HeaderSort from './headerSort/HeaderSort';
 import HeaderFilter from "./headerFilter/HeaderFilter";
-import getComparator from '../../../helpers/getComparator';
+import getComparator from '../../../helpers/GetComparator';
+import styles from './CharactersTable.module.css'
 
 function CharactersTable({characters, onSelectGender, allCharacters}) {
   if(!characters || !characters.length) {
@@ -21,7 +22,7 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
   const genderOptions = [ ...new Set(allCharacters.map((character) => character.gender))];
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const characterTableHeaders = [
@@ -88,12 +89,12 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
     .map((character) => (
     <TableRow
       key={character.personId}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      className={styles.characters}
     >
       <TableCell component="th" scope="row">
         {character.name}
       </TableCell>
-      <TableCell>{genderAbbreviation(character.gender)}</TableCell>
+      <TableCell align="center">{genderAbbreviation(character.gender)}</TableCell>
       <TableCell align="right">{character.height}</TableCell>
     </TableRow>
   ));
@@ -125,8 +126,8 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
   })
 
   return (
-    <TableContainer sx={{ minHeight: 500, maxHeight: 500 }}>
-      <Table stickyHeader aria-label="sticky table">
+    <TableContainer className={styles.tableContainer}>
+      <Table stickyHeader aria-label="sticky table" className={styles.table}>
         <TableHead>
           <TableRow>
             {tableHeaders}
@@ -138,27 +139,28 @@ function CharactersTable({characters, onSelectGender, allCharacters}) {
         <TableFooter>
           <TableRow
             key='total-height'
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            className={styles.totalHeight}
           >
             <TableCell />
             <TableCell />
-            <TableCell align="right">
+            <TableCell align="right" className={styles.totalHeightCaption}>
               <Typography variant="caption">
-                Total Height:
-                <br/>
-                {totalHeightInCentimeters} cm</Typography>
-                <br/>
+                Total Height
+                <br />
+                {totalHeightInCentimeters} cm
                 ({totalHeightInFeet}ft/{totalHeightInInches}in)
+                </Typography>
             </TableCell>
           </TableRow>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[25, 50, 100]}
+              rowsPerPageOptions={[20, 40, 100]}
               count={characters.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              className={styles.pagination}
             />
           </TableRow>
         </TableFooter>

@@ -6,8 +6,8 @@ import { ajax } from 'rxjs/ajax';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import styles from './search.module.css';
 import ErrorSnackbar from '../../snackbar/ErrorSnackbar';
+import styles from './Search.module.css';
 
 function Search({ onChange }) {
   const [open, setOpen] = React.useState(false);
@@ -105,7 +105,7 @@ function Search({ onChange }) {
     <Autocomplete
       id="movie-search"
       freeSolo
-      sx={{ width: 300 }}
+      className={styles.search}
       open={open}
       onOpen={() => {
         setOpen(true);
@@ -113,7 +113,6 @@ function Search({ onChange }) {
       onClose={() => {
         setOpen(false);
       }}
-      className={styles.search}
       onChange={(event, value) => handleAutocompleteOnChange(value)}
       isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
       getOptionLabel={(option) => handleGetOptionLabel(option)}

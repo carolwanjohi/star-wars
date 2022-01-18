@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-
+import styles from './ErrorSnackbar.module.css'
 
 function ErrorSnackbar({error, isErrorOpen, handleErrorSnackbarClose}) {
   if (!error.status) {
@@ -36,11 +36,13 @@ function ErrorSnackbar({error, isErrorOpen, handleErrorSnackbarClose}) {
           horizontal: 'right',
         }}
         onClose={handleClose}
+        autoHideDuration={6000}
       >
         <Alert
           onClose={handleClose}
           severity="error"
-          sx={{ width: '100%' }}
+          variant="filled"
+          className={styles.alert}
           elevation={6}
         >
           {message()}

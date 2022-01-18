@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import TableCell from '@mui/material/TableCell';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import styles from './header-filter.module.css';
-import CheckboxFilter from "./checkbox-filter/CheckboxFIlter";
+import styles from './HeaderFilter.module.css';
+import CheckboxFilter from "./checkboxFilter/CheckboxFIlter";
 
 function HeaderFilter({characterTableHeader, genderOptions, characters, onSelectGender}) {
   const [open, setOpen] = React.useState(false);
@@ -34,8 +34,8 @@ function HeaderFilter({characterTableHeader, genderOptions, characters, onSelect
   }
 
   return (
-    <TableCell key={characterTableHeader.id} align="left" >
-      <span className={styles.header}>
+    <TableCell key={characterTableHeader.id} className={styles.header}>
+      <span className={styles.headerLabel}>
               {characterTableHeader.label}
         { open
           ? <KeyboardArrowDownIcon color="action" onClick={handleIconOnChange}/>
