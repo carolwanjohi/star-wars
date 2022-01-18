@@ -8,6 +8,15 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
+/**
+ * Sort functionality from material sort,
+ * https://mui.com/components/tables/#sorting-amp-selecting
+ *
+ * @param order
+ * @param orderBy
+ * @returns void
+ */
+
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)

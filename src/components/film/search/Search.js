@@ -6,15 +6,15 @@ import { ajax } from 'rxjs/ajax';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import styles from './search.module.css';
 import ErrorSnackbar from '../../snackbar/ErrorSnackbar';
+import styles from './Search.module.css';
 
 function Search({ onChange }) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [error, setError] = React.useState({ status: null});
   const [isErrorOpen, setIsErrorOpen] =  React.useState(false);
-  const loading = open && options.length === 0;
+  const [loading, setLoading] = React.useState(false);
   const destroy$ = new Subject();
   const baseUrl = 'https://swapi.dev/api/films';
 
@@ -52,13 +52,15 @@ function Search({ onChange }) {
       )
       .subscribe({
         next: (films) => {
+          setLoading(false);
           const sortedFilms = sortByReleaseDate(films);
           setOptions(sortedFilms);
         },
         error: (ajaxErrorResponse) => {
+          setLoading(false);
           setIsErrorOpen(true);
           setError(ajaxErrorResponse);
-          setOptions(['No option']);
+          setOptions([]);
         }
       });
   };
@@ -68,9 +70,11 @@ function Search({ onChange }) {
     const trimmedValue = value ? value.trim() : null;
 
     if (trimmedValue && trimmedValue.length) {
+      setLoading(true);
       searchMovie(trimmedValue);
     } else {
       setOpen(false);
+      setOptions([]);
     }
   };
 
@@ -96,32 +100,32 @@ function Search({ onChange }) {
 
   const renderErrorMessage = () => (
     <ErrorSnackbar error={error}
-    isErrorOpen={isErrorOpen}
-    handleErrorSnackbarClose={handleErrorSnackbarClose}/>
+      isErrorOpen={isErrorOpen}
+      handleErrorSnackbarClose={handleErrorSnackbarClose}
+    />
   );
 
   return (
     <>
-    <Autocomplete
-      id="movie-search"
-      freeSolo
-      sx={{ width: 300 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      className={styles.search}
-      onChange={(event, value) => handleAutocompleteOnChange(value)}
-      isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
-      getOptionLabel={(option) => handleGetOptionLabel(option)}
-      options={options}
-      loading={loading}
-      renderInput={(params) => renderTextField(params)}
-    />
-    {renderErrorMessage()}
+      <Autocomplete
+        id="movie-search"
+        freeSolo
+        className={styles.search}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        onChange={(event, value) => handleAutocompleteOnChange(value)}
+        isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
+        getOptionLabel={(option) => handleGetOptionLabel(option)}
+        options={options}
+        loading={loading}
+        renderInput={(params) => renderTextField(params)}
+      />
+      {renderErrorMessage()}
     </>
   );
 }

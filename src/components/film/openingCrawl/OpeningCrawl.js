@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import styles from './openingCrawl.module.css'
+import styles from './OpeningCrawl.module.css'
 
 function OpeningCrawl({openingCrawl}) {
 
@@ -12,7 +12,6 @@ function OpeningCrawl({openingCrawl}) {
   return (
     <section>
       <marquee direction="up"  scrolldelay="500" height="500" className={styles.openingCrawl}>
-
         {openingCrawl}
       </marquee>
     </section>

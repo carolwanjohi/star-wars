@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import styles from "./checkbox-filter.module.css";
+import styles from "./CheckboxFilter.module.css";
 
 function updateOptions(options, selectedOption, event) {
   return options.map((option) => {
@@ -69,23 +69,33 @@ class CheckboxFilter extends React.Component {
       const { genderOption, checked, disabled} = option;
 
       return (
-          <FormControlLabel
-            key={genderOption}
-            control={
-              <Checkbox checked={checked}
+        <FormControlLabel
+          key={genderOption}
+          control={
+            <Checkbox checked={checked}
               disabled={disabled}
               onChange={this.handleChange}
               name={genderOption}
-              />
+              sx={{
+                color: '#feda4a',
+                '&.Mui-checked': {
+                  color: '#feda4a',
+                },
+              }}
+            />
             }
-            label={checkboxLabel(genderOption)}
-        />);
+          label={checkboxLabel(genderOption)}
+        />
+      );
   })
 
     return (
     <section className={styles.checkboxFilterSection}>
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard"
-                   >
+      <FormControl
+        className={styles.checkboxForm}
+        component="fieldset"
+        variant="standard"
+      >
         <FormGroup>
           {checkboxes}
         </FormGroup>

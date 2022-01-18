@@ -7,6 +7,7 @@ import Search from './search/Search';
 import CharactersTable from './characters/CharactersTable';
 import OpeningCrawl from './openingCrawl/OpeningCrawl';
 import ErrorSnackbar from '../snackbar/ErrorSnackbar';
+import Logo from './logo/Logo';
 
 const destroy$ = new Subject();
 const baseUrl = 'https://swapi.dev/api/people';
@@ -112,30 +113,30 @@ class Film extends React.Component {
 
     return (
       <>
-      <Grid container>
-        <Grid item xs={4} />
-
-        <Grid  item xs={4}>
-        <Search item xs={4} onChange={this.handleSearchChange} />
-      </Grid>
-
-        <Grid item xs={4} />
-
-        <Grid item xs={6}>
-        <OpeningCrawl openingCrawl={openingCrawl}/>
-      </Grid>
-
-      <Grid item xs={6}>
-        <CharactersTable characters={characters}
-        allCharacters={allCharacters}
-        onSelectGender={this.handleGenderChange}/>
-      </Grid>
-
-    </Grid>
-    <ErrorSnackbar error={error}
-    isErrorOpen={isErrorOpen}
-    handleErrorSnackbarClose={this.handleErrorSnackbarClose}/>
-    </>
+        <Grid container>
+          <Grid item xs={4} />
+          <Grid item xs={4}>
+            <Search item xs={4} onChange={this.handleSearchChange} />
+          </Grid>
+          <Grid item xs={4} />
+          <Grid item xs={12}>
+            <Logo characters={characters} />
+          </Grid>
+          <Grid item xs={6}>
+            <OpeningCrawl openingCrawl={openingCrawl}/>
+          </Grid>
+          <Grid item xs={6}>
+            <CharactersTable characters={characters}
+              allCharacters={allCharacters}
+              onSelectGender={this.handleGenderChange}
+            />
+          </Grid>
+        </Grid>
+        <ErrorSnackbar error={error}
+          isErrorOpen={isErrorOpen}
+          handleErrorSnackbarClose={this.handleErrorSnackbarClose}
+        />
+      </>
       );
   }
 }
