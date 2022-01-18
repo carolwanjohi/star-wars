@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TableCell from '@mui/material/TableCell';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import styles from './HeaderFilter.module.css';
+import styles from './headerFilter.module.css';
 import CheckboxFilter from "./checkboxFilter/CheckboxFIlter";
 
 function HeaderFilter({characterTableHeader, genderOptions, characters, onSelectGender}) {

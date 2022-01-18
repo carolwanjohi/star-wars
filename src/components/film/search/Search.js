@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import ErrorSnackbar from '../../snackbar/ErrorSnackbar';
-import styles from './Search.module.css';
+import styles from './search.module.css';
 
 function Search({ onChange }) {
   const [open, setOpen] = React.useState(false);

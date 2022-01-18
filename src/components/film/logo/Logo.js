@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import logo from './Logo.svg';
-import styles from './Logo.module.css'
+import styles from './logo.module.css'
 
 function Logo({characters}) {
   if(characters && characters.length > 0) {
