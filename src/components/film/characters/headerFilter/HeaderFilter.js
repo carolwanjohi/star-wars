@@ -27,9 +27,9 @@ function HeaderFilter({characterTableHeader, genderOptions, characters, onSelect
       );
 
     return (
-        <CheckboxFilter isOpen={isOpen} genderOptions={checkboxGenderOptions}
-          onSelectGender={onSelectGender}
-        />
+      <CheckboxFilter isOpen={isOpen} genderOptions={checkboxGenderOptions}
+        onSelectGender={onSelectGender}
+      />
     );
   }
 

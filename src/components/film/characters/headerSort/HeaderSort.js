@@ -11,27 +11,28 @@ function HeaderSort({ characterTableHeader, order, orderBy, onRequestSort }) {
   };
 
   return (
-        <TableCell
-          key={`${characterTableHeader.id}-cell`}
-          align={characterTableHeader.numeric ? 'right' : 'left'}
-          sortDirection={orderBy === characterTableHeader.type ? order : false}
-        >
-          <TableSortLabel
-            key={`${characterTableHeader.id}-label`}
-            active={orderBy === characterTableHeader.type}
-            direction={orderBy === characterTableHeader.type ? order : 'asc'}
-            onClick={createSortHandler(characterTableHeader.type)}
-          >
-            {characterTableHeader.label}
-            {orderBy === characterTableHeader.type ? (
-              <Box
+    <TableCell
+      key={`${characterTableHeader.id}-cell`}
+      align={characterTableHeader.numeric ? 'right' : 'left'}
+      sortDirection={orderBy === characterTableHeader.type ? order : false}
+    >
+      <TableSortLabel
+        key={`${characterTableHeader.id}-label`}
+        active={orderBy === characterTableHeader.type}
+        direction={orderBy === characterTableHeader.type ? order : 'asc'}
+        onClick={createSortHandler(characterTableHeader.type)}
+      >
+        {characterTableHeader.label}
+        {orderBy === characterTableHeader.type ? (
+          <Box
             key={`${characterTableHeader.id}-box`}
-              component="span" sx={visuallyHidden}>
-                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-              </Box>
-            ) : null}
-          </TableSortLabel>
-        </TableCell>
+            component="span" sx={visuallyHidden}
+          >
+            {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+          </Box>
+        ) : null}
+      </TableSortLabel>
+    </TableCell>
   );
 }
 

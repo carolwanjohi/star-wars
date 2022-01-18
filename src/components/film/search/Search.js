@@ -100,31 +100,32 @@ function Search({ onChange }) {
 
   const renderErrorMessage = () => (
     <ErrorSnackbar error={error}
-    isErrorOpen={isErrorOpen}
-    handleErrorSnackbarClose={handleErrorSnackbarClose}/>
+      isErrorOpen={isErrorOpen}
+      handleErrorSnackbarClose={handleErrorSnackbarClose}
+    />
   );
 
   return (
     <>
-    <Autocomplete
-      id="movie-search"
-      freeSolo
-      className={styles.search}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      onChange={(event, value) => handleAutocompleteOnChange(value)}
-      isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
-      getOptionLabel={(option) => handleGetOptionLabel(option)}
-      options={options}
-      loading={loading}
-      renderInput={(params) => renderTextField(params)}
-    />
-    {renderErrorMessage()}
+      <Autocomplete
+        id="movie-search"
+        freeSolo
+        className={styles.search}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        onChange={(event, value) => handleAutocompleteOnChange(value)}
+        isOptionEqualToValue={(option, value) => handleIsOptionEqualToValue(option, value)}
+        getOptionLabel={(option) => handleGetOptionLabel(option)}
+        options={options}
+        loading={loading}
+        renderInput={(params) => renderTextField(params)}
+      />
+      {renderErrorMessage()}
     </>
   );
 }

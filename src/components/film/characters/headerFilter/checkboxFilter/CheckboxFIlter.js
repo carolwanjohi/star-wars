@@ -69,10 +69,10 @@ class CheckboxFilter extends React.Component {
       const { genderOption, checked, disabled} = option;
 
       return (
-          <FormControlLabel
-            key={genderOption}
-            control={
-              <Checkbox checked={checked}
+        <FormControlLabel
+          key={genderOption}
+          control={
+            <Checkbox checked={checked}
               disabled={disabled}
               onChange={this.handleChange}
               name={genderOption}
@@ -82,17 +82,20 @@ class CheckboxFilter extends React.Component {
                   color: '#feda4a',
                 },
               }}
-              />
+            />
             }
-            label={checkboxLabel(genderOption)}
-        />);
+          label={checkboxLabel(genderOption)}
+        />
+      );
   })
 
     return (
     <section className={styles.checkboxFilterSection}>
-      <FormControl className={styles.checkboxForm}
-      component="fieldset" variant="standard"
-                   >
+      <FormControl
+        className={styles.checkboxForm}
+        component="fieldset"
+        variant="standard"
+      >
         <FormGroup>
           {checkboxes}
         </FormGroup>

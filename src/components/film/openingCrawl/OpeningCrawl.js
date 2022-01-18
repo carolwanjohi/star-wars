@@ -12,7 +12,6 @@ function OpeningCrawl({openingCrawl}) {
   return (
     <section>
       <marquee direction="up"  scrolldelay="500" height="500" className={styles.openingCrawl}>
-
         {openingCrawl}
       </marquee>
     </section>

@@ -29,25 +29,25 @@ function ErrorSnackbar({error, isErrorOpen, handleErrorSnackbarClose}) {
   }
 
   return (
-      <Snackbar
-        open={isErrorOpen}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+    <Snackbar
+      open={isErrorOpen}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      onClose={handleClose}
+      autoHideDuration={6000}
+    >
+      <Alert
         onClose={handleClose}
-        autoHideDuration={6000}
+        severity="error"
+        variant="filled"
+        className={styles.alert}
+        elevation={6}
       >
-        <Alert
-          onClose={handleClose}
-          severity="error"
-          variant="filled"
-          className={styles.alert}
-          elevation={6}
-        >
-          {message()}
-        </Alert>
-      </Snackbar>
+        {message()}
+      </Alert>
+    </Snackbar>
   );
 }
 
